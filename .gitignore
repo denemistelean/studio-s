@@ -1,0 +1,35 @@
+# Dependencias y builds
+node_modules/
+dist/
+.next/
+out/
+build/
+coverage/
+
+# Entorno y secretos (nunca subir .env reales)
+.env
+.env.local
+.env.*.local
+**/.env
+!**/.env.example
+
+# Logs y SO
+*.log
+.DS_Store
+Thumbs.db
+
+# IDE / agentes locales
+.idea/
+.vscode/
+.agents/
+.claude/
+.windsurf/
+skills-lock.json
+
+# TypeScript / Vercel
+*.tsbuildinfo
+.vercel/
+
+# Prisma generado (se regenera con prisma generate)
+api/src/generated/
+**/generated/prisma/

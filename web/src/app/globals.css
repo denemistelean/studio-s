@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+:root {
+  --color-porcelain: #f7f1ec;
+  --color-ink: #1b1614;
+  --color-ink-soft: #4a413d;
+  --color-lacquer: #a8283b;
+  --color-lacquer-dark: #7c1e2c;
+  --color-brass: #b08d57;
+  --color-clay: #d8b4a0;
+  --color-form: #f3f0f6;
+  --color-input: #ffffff;
+  --color-placeholder: #6f6760;
+  --color-surface: #fffcfa;
+  --color-input-border: #c9bfb6;
+  --shadow-soft: 0 10px 40px rgba(27, 22, 20, 0.06);
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+}
+
+@theme inline {
+  --color-porcelain: var(--color-porcelain);
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-lacquer: var(--color-lacquer);
+  --color-lacquer-dark: var(--color-lacquer-dark);
+  --color-brass: var(--color-brass);
+  --color-clay: var(--color-clay);
+  --color-form: var(--color-form);
+  --color-input: var(--color-input);
+  --color-placeholder: var(--color-placeholder);
+  --color-surface: var(--color-surface);
+  --color-input-border: var(--color-input-border);
+  --font-display: var(--font-fraunces);
+  --font-body: var(--font-manrope);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-porcelain);
+  color: var(--color-ink);
+  font-family: var(--font-manrope), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-fraunces), Georgia, serif;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-lacquer) 22%, transparent);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-lacquer);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 220ms ease-out both;
+}
