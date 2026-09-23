@@ -40,3 +40,9 @@ api/src/generated/
 
 # Paquetes de deploy locales (subir a cPanel, no a Git)
 studio-s-api-production-*.zip
+
+# Este repositorio publica SOLO el frontend (web/).
+# La API se mantiene local / se despliega por cPanel, no en GitHub.
+/api/
+/docs/
+studio-s-api-production-*.zip
