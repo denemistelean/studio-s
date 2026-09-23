@@ -18,6 +18,10 @@ coverage/
 .DS_Store
 Thumbs.db
 
+# Reporte generado por audit:production (cPanel)
+production-db-audit.txt
+api/production-db-audit.txt
+
 # IDE / agentes locales
 .idea/
 .vscode/
@@ -33,3 +37,6 @@ skills-lock.json
 # Prisma generado (se regenera con prisma generate)
 api/src/generated/
 **/generated/prisma/
+
+# Paquetes de deploy locales (subir a cPanel, no a Git)
+studio-s-api-production-*.zip

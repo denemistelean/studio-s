@@ -14,7 +14,9 @@
     "test": "tsx --test \"src/**/*.test.ts\"",
     "prisma:generate": "prisma generate",
     "prisma:validate": "prisma validate",
-    "admin:create": "tsx scripts/create-admin.ts"
+    "admin:create": "tsx scripts/create-admin.ts",
+    "cleanup:e2e": "tsx scripts/cleanup-e2e.ts",
+    "audit:production": "tsx scripts/audit-production-db.ts"
   },
   "keywords": [],
   "author": "",
