@@ -1,14 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { BrandLogo } from '@/components/brand/logo';
 import { Button } from '@/components/ui/button';
 import { Card, LoadingState, StatusBadge } from '@/components/ui/feedback';
 import {
   listMisCanjes,
-  listMisMovimientos,
   listMisServiciosRealizados,
   listRecompensasPortal,
   ensureMiQr,
@@ -34,15 +33,7 @@ export default function MiTarjetaPage() {
 function MiTarjetaContent() {
   const { clienta, email, loading, logout } = useClientaAuth();
   const router = useRouter();
-  const [movimientos, setMovimientos] = useState<
-    Array<{
-      id_movimiento: number;
-      tipo: string;
-      puntos: number;
-      descripcion: string | null;
-      creado_en: string;
-    }>
-  >([]);
+  const loggingOut = useRef(false);
   const [servicios, setServicios] = useState<
     Array<{
       id_servicio_realizado: number;
@@ -76,7 +67,7 @@ function MiTarjetaContent() {
   const [qrLoading, setQrLoading] = useState(false);
 
   useEffect(() => {
-    if (!loading && !clienta) {
+    if (!loading && !clienta && !loggingOut.current) {
       router.replace('/clienta/login');
     }
   }, [loading, clienta, router]);
@@ -84,18 +75,16 @@ function MiTarjetaContent() {
   useEffect(() => {
     if (!clienta) return;
     Promise.all([
-      listMisMovimientos({ limit: 10 }),
       listMisServiciosRealizados({ limit: 10 }),
       listRecompensasPortal({ limit: 12 }),
       listMisCanjes({ limit: 10 }),
     ])
-      .then(([m, s, r, c]) => {
-        setMovimientos(m.items);
+      .then(([s, r, c]) => {
         setServicios(s.items);
         setRecompensas(r.items);
         setCanjes(c.items);
       })
-      .catch(() => setPortalError('No se pudo cargar parte del historial.'));
+      .catch(() => setPortalError('No se pudo cargar parte de tu tarjeta.'));
 
     setQrLoading(true);
     setQrError('');
@@ -127,7 +116,8 @@ function MiTarjetaContent() {
             variant="ghost"
             size="sm"
             onClick={() => {
-              void logout().then(() => router.replace('/clienta/login'));
+              loggingOut.current = true;
+              void logout().then(() => router.replace('/'));
             }}
           >
             Cerrar sesión
@@ -226,32 +216,7 @@ function MiTarjetaContent() {
           <p className="text-sm text-lacquer-dark">{portalError}</p>
         ) : null}
 
-        <section className="grid gap-4 md:grid-cols-2">
-          <Card>
-            <h2 className="font-display text-2xl">Historial de puntos</h2>
-            <div className="mt-3 space-y-2">
-              {movimientos.length === 0 ? (
-                <p className="text-sm text-ink-soft">Todavía no hay movimientos.</p>
-              ) : (
-                movimientos.map((m) => (
-                  <div
-                    key={m.id_movimiento}
-                    className="flex items-center justify-between border-b border-ink/5 py-2 text-sm"
-                  >
-                    <div>
-                      <p className="font-semibold text-ink">{m.tipo}</p>
-                      <p className="text-xs text-ink-soft">{formatDate(m.creado_en)}</p>
-                    </div>
-                    <p className={m.puntos >= 0 ? 'font-semibold text-lacquer' : 'font-semibold'}>
-                      {m.puntos >= 0 ? '+' : ''}
-                      {m.puntos}
-                    </p>
-                  </div>
-                ))
-              )}
-            </div>
-          </Card>
-
+        <section className="grid gap-4">
           <Card>
             <h2 className="font-display text-2xl">Servicios</h2>
             <div className="mt-3 space-y-2">

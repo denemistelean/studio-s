@@ -1,13 +1,112 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import Link from 'next/link';
 import { BrandLogo } from '@/components/brand/logo';
+import { Portafolio, type PortafolioCategoria } from '@/components/landing/portafolio';
 import { Button } from '@/components/ui/button';
 import { LandingFooter, LandingNavbar, WhatsAppFloat } from '@/components/landing/chrome';
 
-const servicios = [
-  { nombre: 'Manicure clásica', pts: 10, desc: 'Cuidado esencial con acabado impecable.' },
-  { nombre: 'Soft gel', pts: 25, desc: 'Brillo duradero y silueta limpia.' },
-  { nombre: 'Nail art editorial', pts: 40, desc: 'Diseños con carácter boutique.' },
+const categoriasServicios: {
+  nombre: string;
+  items: { nombre: string; desc?: string; pts: number }[];
+}[] = [
+  {
+    nombre: 'Manicure',
+    items: [
+      { nombre: 'Manicure Tradicional', desc: 'Belleza natural, clásica y fresca.', pts: 12 },
+      { nombre: 'Manicure Color Gel', desc: 'Brillo espectacular y mayor duración.', pts: 20 },
+      {
+        nombre: 'Manicure Rubber',
+        desc: 'Flexibilidad, refuerzo y protección para tus uñas naturales.',
+        pts: 24,
+      },
+      {
+        nombre: 'Manicure Builder Gel',
+        desc: 'Mayor resistencia, estructura y uñas con acabado impecable.',
+        pts: 30,
+      },
+      {
+        nombre: 'Manicure Acrílico',
+        desc: 'Uñas resistentes, longitud personalizada y diseños impactantes.',
+        pts: 36,
+      },
+      {
+        nombre: 'Manicure Polygel',
+        desc: 'Ligereza, resistencia y uñas hermosas con forma perfecta.',
+        pts: 28,
+      },
+    ],
+  },
+  {
+    nombre: 'Sistemas de alargamiento con tip',
+    items: [
+      { nombre: 'Soft Gel', pts: 18 },
+      { nombre: 'Builder Gel', pts: 26 },
+      { nombre: 'Acrílico', pts: 32 },
+      { nombre: 'Polygel', pts: 22 },
+    ],
+  },
+  {
+    nombre: 'Sistemas de alargamiento esculpidas',
+    items: [
+      { nombre: 'Acrílico', pts: 40 },
+      { nombre: 'Polygel', pts: 34 },
+    ],
+  },
+  {
+    nombre: 'Pedicure',
+    items: [
+      { nombre: 'Limpieza', pts: 8 },
+      { nombre: 'Pedicure Tradicional', pts: 16 },
+      { nombre: 'Pedicure Color Gel', pts: 22 },
+    ],
+  },
+  {
+    nombre: 'Retiro',
+    items: [
+      { nombre: 'Gel', pts: 6 },
+      { nombre: 'Rubber', pts: 8 },
+      { nombre: 'Soft Gel / Builder Gel', pts: 10 },
+      { nombre: 'Acrílico / Polygel', pts: 14 },
+    ],
+  },
 ];
+
+const portafolioBase: Omit<PortafolioCategoria, 'fotos'>[] = [
+  {
+    id: 'tendencias-inn',
+    nombre: 'Tendencias Inn',
+    fondo: 'bg-[linear-gradient(160deg,#e7d3c8,#f7f1ec_55%,#d8b4a0)]',
+  },
+  {
+    id: 'top-5',
+    nombre: 'Top 5',
+    fondo: 'bg-[linear-gradient(160deg,#f3e6df,#fff8f4_50%,#c4a484)]',
+  },
+  {
+    id: 'disenos-complejos',
+    nombre: 'Diseños Complejos',
+    fondo: 'bg-[linear-gradient(160deg,#ead7d4,#f7f1ec_45%,#a8283b33)]',
+  },
+  {
+    id: 'diseno-sencillos',
+    nombre: 'Diseño Sencillos',
+    fondo: 'bg-[linear-gradient(160deg,#f6efe9,#fffdfb_60%,#e4d2c4)]',
+  },
+];
+
+function fotosDe(carpeta: string): string[] {
+  const dir = path.join(process.cwd(), 'public', 'portafolio', carpeta);
+  try {
+    return fs
+      .readdirSync(dir)
+      .filter((archivo) => /\.(jpe?g|png|webp|avif|gif)$/i.test(archivo))
+      .sort((a, b) => a.localeCompare(b, 'es'))
+      .map((archivo) => `/portafolio/${carpeta}/${archivo}`);
+  } catch {
+    return [];
+  }
+}
 
 const recompensas = [
   { nombre: 'Esmalte cortesía', pts: 100 },
@@ -25,19 +124,24 @@ export default function HomePage() {
           <div className="relative mx-auto grid max-w-6xl gap-10 px-4 py-16 md:grid-cols-2 md:items-center md:px-6 md:py-24">
             <div className="animate-fade-up">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brass">
-                Salón de uñas premium
+                Salón de uñas.
               </p>
               <h1 className="mt-4 font-display text-5xl leading-[1.05] text-ink md:text-6xl">
-                Tu belleza.
+                Engríete
                 <br />
-                Tus puntos.
+                Consientete y
                 <br />
-                <span className="text-lacquer">Tus recompensas.</span>
+                <span className="text-lacquer">Acumula Puntos</span>
               </h1>
-              <p className="mt-5 max-w-md text-base leading-relaxed text-ink-soft">
-                Studio S combina estética editorial con un programa de fidelización elegante:
-                cada visita suma, cada detalle importa.
-              </p>
+              <div className="mt-5 max-w-xl space-y-2 text-base leading-relaxed text-ink-soft">
+                <p className="font-bold text-ink">Tu belleza merece ser recompensada.</p>
+                <p>¡Bienvenida a una nueva forma de disfrutar tus momentos!</p>
+                <p className="text-pretty">
+                  En <span className="font-bold text-ink">STUDIO S</span> creemos que cada visita
+                  es especial. Por eso, queremos agradecerte por elegirnos y permitirnos ser parte
+                  de tu estilo.
+                </p>
+              </div>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link href="/registro">
                   <Button size="lg">Únete a Studio S</Button>
@@ -49,16 +153,16 @@ export default function HomePage() {
                 </Link>
               </div>
             </div>
-            <div className="relative flex min-h-[360px] items-center justify-center overflow-hidden rounded-[2rem] bg-ink shadow-[var(--shadow-soft)]">
+            <div className="relative flex min-h-[360px] items-start justify-center overflow-hidden rounded-[2rem] bg-ink pt-8 shadow-[var(--shadow-soft)]">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(176,141,87,0.28),transparent_55%),radial-gradient(circle_at_80%_80%,rgba(168,40,59,0.22),transparent_45%)]" />
-              <div className="relative animate-fade-up">
+              <div className="relative -translate-y-2 animate-fade-up">
                 <BrandLogo href={null} size="xl" priority />
               </div>
               <div className="absolute bottom-6 left-6 right-6 rounded-[1.4rem] bg-porcelain/95 p-5 backdrop-blur">
                 <p className="text-xs uppercase tracking-[0.16em] text-brass">Fidelización</p>
                 <p className="mt-2 font-display text-2xl text-ink">Tarjeta digital Studio S</p>
                 <p className="mt-1 text-sm text-ink-soft">
-                  Acumulá puntos y canjeá recompensas premium.
+                  Acumula puntos y canjea recompensas.
                 </p>
               </div>
             </div>
@@ -69,54 +173,102 @@ export default function HomePage() {
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brass">
             Propuesta de valor
           </p>
-          <h2 className="mt-3 max-w-xl font-display text-4xl text-ink">
-            Una experiencia boutique, no una rutina de salón.
+          <h2 className="mt-3 font-display text-4xl uppercase leading-[1.05] tracking-[0.06em] text-ink md:text-5xl">
+            Vive la experiencia
+            <span className="mt-1 block text-lacquer">Studio S</span>
           </h2>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {[
-              ['Cuidado impecable', 'Protocolos precisos y acabados limpios.'],
-              ['Estética editorial', 'Diseños con identidad y proporción.'],
-              ['Puntos con sentido', 'Cada servicio suma hacia recompensas reales.'],
-            ].map(([t, d]) => (
-              <div key={t} className="rounded-[1.5rem] bg-surface p-6 shadow-[var(--shadow-soft)]">
-                <h3 className="font-display text-2xl text-ink">{t}</h3>
-                <p className="mt-2 text-sm text-ink-soft">{d}</p>
+            <article className="flex h-full flex-col rounded-[1.5rem] bg-surface p-6 shadow-[var(--shadow-soft)]">
+              <h3 className="font-display text-2xl font-bold text-ink">Cuidado Natural</h3>
+              <div className="mt-4 flex flex-1 flex-col gap-4 text-sm font-normal leading-relaxed text-ink-soft">
+                <p>
+                  En STUDIO S, brindamos
+                  <br />
+                  belleza, cuidado y amor por
+                  <br />
+                  tus uñas naturales
+                </p>
+                <p>
+                  No solo embellecemos tus uñas,
+                  <br />
+                  las cuidamos!
+                </p>
+                <p>
+                  AMAMOS EL DISEÑO,
+                  <br />
+                  PRIORIZAMOS TUS UÑAS
+                </p>
               </div>
-            ))}
+            </article>
+            <article className="flex h-full flex-col rounded-[1.5rem] bg-surface p-6 shadow-[var(--shadow-soft)]">
+              <h3 className="font-display text-2xl font-bold text-ink">La experiencia en STUDIO S</h3>
+              <div className="mt-4 flex flex-1 flex-col gap-4 text-sm font-normal leading-relaxed text-ink-soft">
+                <p>incluye:</p>
+                <ul className="space-y-2">
+                  <li>Bebidas</li>
+                  <li>Activaciones</li>
+                  <li>Alianzas estratégicas</li>
+                </ul>
+                <p>Seguimiento continuo</p>
+              </div>
+            </article>
+            <article className="flex h-full flex-col rounded-[1.5rem] bg-surface p-6 shadow-[var(--shadow-soft)]">
+              <h3 className="font-display text-2xl font-bold text-ink">Puntos con Studio S</h3>
+              <div className="mt-4 flex flex-1 flex-col gap-4 text-sm font-normal leading-relaxed text-ink-soft">
+                <p>
+                  Cuanto más disfrutes de tus uñas, más oportunidades tienes de recibir recompensas.
+                </p>
+                <ul className="space-y-2">
+                  <li>Beneficios especiales para nuestras clientas.</li>
+                  <li>Recompensas especiales para nuestras clientas.</li>
+                  <li>Sorpresas y promociones exclusivas.</li>
+                  <li>Una experiencia pensada especialmente para ti.</li>
+                </ul>
+              </div>
+            </article>
           </div>
         </section>
 
-        <section id="galeria" className="bg-clay/35 py-16">
+        <section id="portafolio" className="bg-clay/35 py-16">
           <div className="mx-auto max-w-6xl px-4 md:px-6">
-            <h2 className="font-display text-4xl text-ink">Galería de trabajos</h2>
+            <h2 className="font-display text-4xl text-ink">Portafolio</h2>
             <p className="mt-2 text-ink-soft">Selección editorial de manicures y nail art.</p>
-            <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
-              {Array.from({ length: 8 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="aspect-[4/5] rounded-[1.2rem] bg-[linear-gradient(145deg,#d8b4a0,#f7f1ec_55%,#a8283b33)]"
-                />
-              ))}
-            </div>
+            <Portafolio
+              categorias={portafolioBase.map((categoria) => ({
+                ...categoria,
+                fotos: fotosDe(categoria.id),
+              }))}
+            />
           </div>
         </section>
 
         <section id="servicios" className="mx-auto max-w-6xl px-4 py-16 md:px-6">
           <h2 className="font-display text-4xl text-ink">Servicios</h2>
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
-            {servicios.map((s) => (
-              <article
-                key={s.nombre}
-                className="rounded-[1.5rem] bg-surface p-6 ring-1 ring-ink/5"
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <h3 className="font-display text-2xl">{s.nombre}</h3>
-                  <span className="rounded-full bg-[color-mix(in_srgb,var(--color-lacquer)_12%,white)] px-2.5 py-1 text-xs font-semibold text-lacquer">
-                    +{s.pts} pts
-                  </span>
+          <div className="mt-10 space-y-12">
+            {categoriasServicios.map((categoria) => (
+              <div key={categoria.nombre}>
+                <h3 className="inline-flex rounded-full bg-ink px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-porcelain">
+                  {categoria.nombre}
+                </h3>
+                <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {categoria.items.map((servicio) => (
+                    <article
+                      key={`${categoria.nombre}-${servicio.nombre}`}
+                      className="flex h-full flex-col rounded-[1.5rem] bg-surface p-5 ring-1 ring-ink/5"
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <h4 className="font-display text-xl leading-snug text-ink">{servicio.nombre}</h4>
+                        <span className="shrink-0 rounded-full bg-[color-mix(in_srgb,var(--color-lacquer)_12%,white)] px-2.5 py-1 text-xs font-semibold text-lacquer">
+                          +{servicio.pts} pts
+                        </span>
+                      </div>
+                      {servicio.desc ? (
+                        <p className="mt-3 text-sm leading-relaxed text-ink-soft">{servicio.desc}</p>
+                      ) : null}
+                    </article>
+                  ))}
                 </div>
-                <p className="mt-3 text-sm text-ink-soft">{s.desc}</p>
-              </article>
+              </div>
             ))}
           </div>
         </section>
@@ -127,15 +279,40 @@ export default function HomePage() {
               Programa de fidelización
             </p>
             <h2 className="mt-3 font-display text-4xl">Cómo funcionan tus puntos</h2>
-            <ol className="mt-8 grid gap-4 md:grid-cols-3">
+            <ol className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
               {[
-                'Visita el salón y disfrutá tu servicio.',
-                'Acumulás puntos automáticamente.',
-                'Canjeás recompensas cuando quieras.',
+                {
+                  titulo: 'Afíliate gratis.',
+                  texto: 'Registra tus datos y forma parte de nuestra comunidad de clientas.',
+                },
+                {
+                  titulo: 'Disfruta tus servicios favoritos.',
+                  texto: 'Realiza tus servicios de manicure, pedicure y uñas con nuestro equipo.',
+                },
+                {
+                  titulo: 'Acumula puntos.',
+                  texto:
+                    'Por cada compra elegible, suma puntos en tu cuenta de acuerdo con las condiciones del programa.',
+                },
+                {
+                  titulo: 'Canjea tus recompensas.',
+                  texto:
+                    'Utiliza tus puntos para acceder a beneficios, descuentos o servicios seleccionados.',
+                },
+                {
+                  titulo: 'Sigue acumulando.',
+                  texto: 'Cada nueva visita es una oportunidad para acercarte a tu próxima recompensa.',
+                },
               ].map((step, i) => (
-                <li key={step} className="rounded-[1.4rem] bg-porcelain/5 p-5 ring-1 ring-porcelain/10">
+                <li
+                  key={step.titulo}
+                  className="flex h-full flex-col rounded-[1.4rem] bg-porcelain/5 p-5 ring-1 ring-porcelain/10"
+                >
                   <span className="font-display text-3xl text-lacquer">{i + 1}</span>
-                  <p className="mt-3 text-sm text-porcelain/80">{step}</p>
+                  <p className="mt-3 text-sm font-bold text-porcelain">{step.titulo}</p>
+                  <p className="mt-2 text-sm font-normal leading-relaxed text-porcelain/80">
+                    {step.texto}
+                  </p>
                 </li>
               ))}
             </ol>
@@ -158,10 +335,17 @@ export default function HomePage() {
             ))}
           </div>
           <div className="mt-10 rounded-[1.8rem] bg-form px-6 py-10 text-center md:px-10">
-            <h3 className="font-display text-3xl text-ink">Empezá a sumar hoy</h3>
-            <p className="mx-auto mt-2 max-w-lg text-sm text-ink-soft">
-              Creá tu cuenta o ingresá con tu tarjeta digital Studio S.
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brass">
+              En <span className="text-ink">STUDIO S</span>
             </p>
+            <h3 className="mt-3 font-display text-4xl leading-tight text-ink">
+              Tu belleza tiene recompensa.
+            </h3>
+            <div className="mx-auto mt-5 max-w-md space-y-2 text-sm leading-relaxed text-ink-soft">
+              <p>Beneficios exclusivos por tu preferencia.</p>
+              <p>Una experiencia que continúa después de tu cita.</p>
+              <p>Cada visita te acerca a un nuevo beneficio.</p>
+            </div>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
               <Link href="/registro">
                 <Button>Únete a Studio S</Button>

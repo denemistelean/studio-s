@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   LayoutDashboard,
   Users,
@@ -59,9 +59,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const router = useRouter();
   const pathname = usePathname();
   const [drawer, setDrawer] = useState(false);
+  const loggingOut = useRef(false);
 
   useEffect(() => {
-    if (!loading && !user) router.replace('/login');
+    if (!loading && !user && !loggingOut.current) router.replace('/login');
   }, [loading, user, router]);
 
   if (loading || !user) {
@@ -115,8 +116,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <button
           type="button"
           onClick={() => {
+            loggingOut.current = true;
             logout();
-            router.replace('/login');
+            router.replace('/');
           }}
           className="mt-3 inline-flex items-center gap-2 text-xs text-porcelain/60 hover:text-lacquer"
         >

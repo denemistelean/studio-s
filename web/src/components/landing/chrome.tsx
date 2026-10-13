@@ -2,13 +2,20 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { Menu, X, MessageCircle } from 'lucide-react';
+import { Instagram, MapPin, Menu, MessageCircle, X } from 'lucide-react';
 import { BrandLogo } from '@/components/brand/logo';
+import { QrCodeImage } from '@/components/qr/qr-code-image';
 import { Button } from '@/components/ui/button';
+
+const WHATSAPP_NUMBER = '51956246255';
+const WHATSAPP_LABEL = '+51 956 246 255';
+const MAPS_REVIEW_URL = 'https://maps.app.goo.gl/dBL3kYQYJFXpesmZ8';
+const ADDRESS = 'Calle Obispo, Martínez de Compañón 946, Víctor Larco Herrera 13008';
+const INSTAGRAM = 'studios_pe';
 
 const nav = [
   { href: '#propuesta', label: 'Experiencia' },
-  { href: '#galeria', label: 'Galería' },
+  { href: '#portafolio', label: 'Portafolio' },
   { href: '#servicios', label: 'Servicios' },
   { href: '#fidelizacion', label: 'Puntos' },
   { href: '#contacto', label: 'Contacto' },
@@ -78,7 +85,7 @@ export function LandingNavbar() {
 export function WhatsAppFloat() {
   return (
     <a
-      href="https://wa.me/51999999999"
+      href={`https://wa.me/${WHATSAPP_NUMBER}`}
       target="_blank"
       rel="noreferrer"
       className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-lacquer text-porcelain shadow-[0_12px_30px_rgba(168,40,59,0.35)] transition hover:bg-lacquer-dark"
@@ -92,33 +99,74 @@ export function WhatsAppFloat() {
 export function LandingFooter() {
   return (
     <footer className="bg-ink text-porcelain">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-14 md:grid-cols-3 md:px-6">
+      <div className="mx-auto grid max-w-6xl items-center gap-8 px-4 py-14 md:grid-cols-[1.15fr_1fr_auto] md:px-6">
+        <a
+          href={MAPS_REVIEW_URL}
+          target="_blank"
+          rel="noreferrer"
+          className="group relative block overflow-hidden rounded-[1.4rem] ring-1 ring-porcelain/15"
+          aria-label="Abrir Studio S en Google Maps"
+        >
+          <img
+            src="/maps/studio-s.jpg"
+            alt="Mapa de Studio S en Víctor Larco Herrera"
+            className="h-56 w-full object-cover transition duration-500 group-hover:scale-105 md:h-64"
+          />
+          <span className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-full text-lacquer drop-shadow">
+            <MapPin size={36} fill="currentColor" />
+          </span>
+          <span className="absolute bottom-3 left-3 rounded-full bg-porcelain px-3 py-1 text-xs font-semibold text-ink">
+            Ver en Google Maps
+          </span>
+        </a>
+
         <div>
           <BrandLogo href="/" size="md" />
           <p className="mt-4 font-display text-2xl text-porcelain">Studio S</p>
-          <p className="mt-3 max-w-xs text-sm text-porcelain/70">
-            Salón de uñas premium. Belleza editorial, cuidado impecable y un programa de
-            fidelización hecho para vos.
-          </p>
-        </div>
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brass">
-            Navegación
-          </p>
-          <div className="mt-3 flex flex-col gap-2 text-sm text-porcelain/75">
-            <a href="#servicios">Servicios</a>
-            <a href="#fidelizacion">Puntos</a>
-            <Link href="/clienta/login">Ingresar</Link>
-            <Link href="/registro">Únete</Link>
-            <Link href="/login">Admin</Link>
+          <div className="mt-4 space-y-3 text-sm text-porcelain/80">
+            <a
+              href={`https://wa.me/${WHATSAPP_NUMBER}`}
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-2 hover:text-porcelain"
+            >
+              <MessageCircle size={16} className="text-brass" />
+              WhatsApp: {WHATSAPP_LABEL}
+            </a>
+            <p className="flex items-start gap-2">
+              <MapPin size={16} className="mt-0.5 shrink-0 text-brass" />
+              <span>{ADDRESS}</span>
+            </p>
+            <a
+              href={`https://www.instagram.com/${INSTAGRAM}/`}
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-2 hover:text-porcelain"
+            >
+              <Instagram size={16} className="text-brass" />
+              @{INSTAGRAM}
+            </a>
           </div>
         </div>
-        <div>
+
+        <div className="flex flex-col items-center text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brass">
-            Contacto
+            Reseña en Google
           </p>
-          <p className="mt-3 text-sm text-porcelain/75">Trujillo, Perú</p>
-          <p className="text-sm text-porcelain/75">hola@studiosalon.pe</p>
+          <a
+            href={MAPS_REVIEW_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-3 rounded-[1.2rem] bg-porcelain p-3"
+            aria-label="Abrir la reseña de Studio S en Google Maps"
+          >
+            <QrCodeImage
+              payload={MAPS_REVIEW_URL}
+              size={148}
+              alt="Código QR de la reseña de Studio S en Google Maps"
+            />
+          </a>
+          <p className="mt-2 max-w-[10rem] text-xs text-porcelain/60">Escaneá para dejar tu reseña</p>
         </div>
       </div>
       <div className="border-t border-porcelain/10 py-4 text-center text-xs text-porcelain/50">

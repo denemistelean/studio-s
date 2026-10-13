@@ -35,9 +35,19 @@ function toDateInput(value: string | null) {
   return value.slice(0, 10);
 }
 
+function formatBirth(value: string | null) {
+  const iso = toDateInput(value);
+  if (!iso) return '—';
+  const [year, month, day] = iso.split('-');
+  if (!year || !month || !day) return '—';
+  return `${day}/${month}/${year}`;
+}
+
 export default function ClientasPage() {
   const [items, setItems] = useState<Clienta[]>([]);
-  const [q, setQ] = useState('');
+  const [nombres, setNombres] = useState('');
+  const [celular, setCelular] = useState('');
+  const [fechaNacimiento, setFechaNacimiento] = useState('');
   const [estado, setEstado] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -51,7 +61,9 @@ export default function ClientasPage() {
     setError('');
     try {
       const data = await listClientas({
-        q: q || undefined,
+        nombres: nombres.trim() || undefined,
+        telefono: celular.trim() || undefined,
+        fecha_nacimiento: fechaNacimiento || undefined,
         estado: estado || undefined,
         limit: 50,
       });
@@ -61,7 +73,7 @@ export default function ClientasPage() {
     } finally {
       setLoading(false);
     }
-  }, [q, estado]);
+  }, [nombres, celular, fechaNacimiento, estado]);
 
   useEffect(() => {
     void load();
@@ -135,13 +147,26 @@ export default function ClientasPage() {
         }
       />
 
-      <div className="mb-5 grid gap-3 md:grid-cols-[1fr_180px_auto]">
+      <div className="mb-5 grid items-end gap-3 md:grid-cols-2 xl:grid-cols-[1fr_1fr_minmax(190px,240px)_180px_auto]">
         <Input
-          placeholder="Buscar por nombre, teléfono o public_id"
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
+          label="Nombres"
+          placeholder="Buscar por nombres"
+          value={nombres}
+          onChange={(e) => setNombres(e.target.value)}
         />
-        <Select value={estado} onChange={(e) => setEstado(e.target.value)}>
+        <Input
+          label="Celular"
+          placeholder="Buscar por celular"
+          value={celular}
+          onChange={(e) => setCelular(e.target.value)}
+        />
+        <Input
+          label="Fecha de nacimiento"
+          type="date"
+          value={fechaNacimiento}
+          onChange={(e) => setFechaNacimiento(e.target.value)}
+        />
+        <Select label="Estado" value={estado} onChange={(e) => setEstado(e.target.value)}>
           <option value="">Todos los estados</option>
           <option value="ACTIVA">ACTIVA</option>
           <option value="INACTIVA">INACTIVA</option>
@@ -216,7 +241,7 @@ export default function ClientasPage() {
                 {c.nombres} {c.apellidos}
               </Link>
               <p className="text-sm text-ink-soft">
-                {c.telefono || 'Sin teléfono'} · {c.public_id.slice(0, 8)}…
+                Celular: {c.telefono || '—'} - Fecha Nacimiento: {formatBirth(c.fecha_nacimiento)}
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2">

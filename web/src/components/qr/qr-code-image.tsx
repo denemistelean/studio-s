@@ -7,9 +7,15 @@ type Props = {
   payload: string;
   size?: number;
   className?: string;
+  alt?: string;
 };
 
-export function QrCodeImage({ payload, size = 220, className }: Props) {
+export function QrCodeImage({
+  payload,
+  size = 220,
+  className,
+  alt = 'Código QR personal Studio S',
+}: Props) {
   const [dataUrl, setDataUrl] = useState<string>('');
   const [error, setError] = useState('');
 
@@ -50,7 +56,7 @@ export function QrCodeImage({ payload, size = 220, className }: Props) {
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src={dataUrl}
-      alt="Código QR personal Studio S"
+      alt={alt}
       width={size}
       height={size}
       className={className ?? 'rounded-lg'}
