@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   Users,
   Sparkles,
+  Images,
   ClipboardList,
   Coins,
   Gift,
@@ -35,6 +36,12 @@ const menu = [
     perm: [PERMISOS.CLIENTAS_VER, PERMISOS.SERVICIOS_REGISTRAR],
   },
   { href: '/admin/servicios', label: 'Servicios', icon: Sparkles, perm: PERMISOS.SERVICIOS_VER },
+  {
+    href: '/admin/portafolio',
+    label: 'Portafolio',
+    icon: Images,
+    perm: PERMISOS.SERVICIOS_GESTIONAR,
+  },
   {
     href: '/admin/servicios-realizados',
     label: 'Servicios realizados',

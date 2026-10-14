@@ -8,66 +8,62 @@ import { LandingFooter, LandingNavbar, WhatsAppFloat } from '@/components/landin
 
 const categoriasServicios: {
   nombre: string;
-  items: { nombre: string; desc?: string; pts: number }[];
+  items: { nombre: string; desc?: string }[];
 }[] = [
   {
     nombre: 'Manicure',
     items: [
-      { nombre: 'Manicure Tradicional', desc: 'Belleza natural, clásica y fresca.', pts: 12 },
-      { nombre: 'Manicure Color Gel', desc: 'Brillo espectacular y mayor duración.', pts: 20 },
+      { nombre: 'Manicure Tradicional', desc: 'Belleza natural, clásica y fresca.' },
+      { nombre: 'Manicure Color Gel', desc: 'Brillo espectacular y mayor duración.' },
       {
         nombre: 'Manicure Rubber',
         desc: 'Flexibilidad, refuerzo y protección para tus uñas naturales.',
-        pts: 24,
       },
       {
         nombre: 'Manicure Builder Gel',
         desc: 'Mayor resistencia, estructura y uñas con acabado impecable.',
-        pts: 30,
       },
       {
         nombre: 'Manicure Acrílico',
         desc: 'Uñas resistentes, longitud personalizada y diseños impactantes.',
-        pts: 36,
       },
       {
         nombre: 'Manicure Polygel',
         desc: 'Ligereza, resistencia y uñas hermosas con forma perfecta.',
-        pts: 28,
       },
     ],
   },
   {
     nombre: 'Sistemas de alargamiento con tip',
     items: [
-      { nombre: 'Soft Gel', pts: 18 },
-      { nombre: 'Builder Gel', pts: 26 },
-      { nombre: 'Acrílico', pts: 32 },
-      { nombre: 'Polygel', pts: 22 },
+      { nombre: 'Soft Gel' },
+      { nombre: 'Builder Gel' },
+      { nombre: 'Acrílico' },
+      { nombre: 'Polygel' },
     ],
   },
   {
     nombre: 'Sistemas de alargamiento esculpidas',
     items: [
-      { nombre: 'Acrílico', pts: 40 },
-      { nombre: 'Polygel', pts: 34 },
+      { nombre: 'Acrílico' },
+      { nombre: 'Polygel' },
     ],
   },
   {
     nombre: 'Pedicure',
     items: [
-      { nombre: 'Limpieza', pts: 8 },
-      { nombre: 'Pedicure Tradicional', pts: 16 },
-      { nombre: 'Pedicure Color Gel', pts: 22 },
+      { nombre: 'Limpieza' },
+      { nombre: 'Pedicure Tradicional' },
+      { nombre: 'Pedicure Color Gel' },
     ],
   },
   {
     nombre: 'Retiro',
     items: [
-      { nombre: 'Gel', pts: 6 },
-      { nombre: 'Rubber', pts: 8 },
-      { nombre: 'Soft Gel / Builder Gel', pts: 10 },
-      { nombre: 'Acrílico / Polygel', pts: 14 },
+      { nombre: 'Gel' },
+      { nombre: 'Rubber' },
+      { nombre: 'Soft Gel / Builder Gel' },
+      { nombre: 'Acrílico / Polygel' },
     ],
   },
 ];
@@ -108,13 +104,44 @@ function fotosDe(carpeta: string): string[] {
   }
 }
 
+function origenPortafolio() {
+  return (
+    process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') ||
+    'https://api.automotorestrujillo.com'
+  );
+}
+
+async function fotosSubidas(): Promise<Record<string, string[]>> {
+  const origen = origenPortafolio();
+  try {
+    const res = await fetch(`${origen}/api/portafolio`, {
+      cache: 'no-store',
+      signal: AbortSignal.timeout(2500),
+    });
+    if (!res.ok) return {};
+    const json = (await res.json()) as {
+      data?: { categorias?: { id: string; fotos: { url: string }[] }[] };
+    };
+    const out: Record<string, string[]> = {};
+    for (const categoria of json.data?.categorias ?? []) {
+      out[categoria.id] = categoria.fotos.map((foto) =>
+        foto.url.startsWith('http') ? foto.url : `${origen}${foto.url}`,
+      );
+    }
+    return out;
+  } catch {
+    return {};
+  }
+}
+
 const recompensas = [
   { nombre: 'Esmalte cortesía', pts: 100 },
   { nombre: 'Upgrade soft gel', pts: 180 },
   { nombre: 'Sesión beauty', pts: 300 },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const subidas = await fotosSubidas();
   return (
     <div className="min-h-screen bg-porcelain text-ink">
       <LandingNavbar />
@@ -170,61 +197,40 @@ export default function HomePage() {
         </section>
 
         <section id="propuesta" className="mx-auto max-w-6xl px-4 py-16 md:px-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brass">
-            Propuesta de valor
-          </p>
-          <h2 className="mt-3 font-display text-4xl uppercase leading-[1.05] tracking-[0.06em] text-ink md:text-5xl">
+          <h2 className="font-display text-4xl uppercase leading-[1.05] tracking-[0.06em] text-ink md:text-5xl">
             Vive la experiencia
             <span className="mt-1 block text-lacquer">Studio S</span>
           </h2>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             <article className="flex h-full flex-col rounded-[1.5rem] bg-surface p-6 shadow-[var(--shadow-soft)]">
               <h3 className="font-display text-2xl font-bold text-ink">Cuidado Natural</h3>
-              <div className="mt-4 flex flex-1 flex-col gap-4 text-sm font-normal leading-relaxed text-ink-soft">
-                <p>
-                  En STUDIO S, brindamos
-                  <br />
-                  belleza, cuidado y amor por
-                  <br />
-                  tus uñas naturales
-                </p>
-                <p>
-                  No solo embellecemos tus uñas,
-                  <br />
-                  las cuidamos!
-                </p>
-                <p>
-                  AMAMOS EL DISEÑO,
-                  <br />
-                  PRIORIZAMOS TUS UÑAS
-                </p>
-              </div>
+              <ul className="mt-4 list-disc space-y-2 pl-5 text-sm font-normal leading-relaxed text-ink-soft">
+                <li>En STUDIO S, brindamos belleza, cuidado y amor por tus uñas naturales</li>
+                <li>No solo embellecemos tus uñas, las cuidamos!</li>
+              </ul>
             </article>
             <article className="flex h-full flex-col rounded-[1.5rem] bg-surface p-6 shadow-[var(--shadow-soft)]">
-              <h3 className="font-display text-2xl font-bold text-ink">La experiencia en STUDIO S</h3>
-              <div className="mt-4 flex flex-1 flex-col gap-4 text-sm font-normal leading-relaxed text-ink-soft">
-                <p>incluye:</p>
-                <ul className="space-y-2">
-                  <li>Bebidas</li>
-                  <li>Activaciones</li>
-                  <li>Alianzas estratégicas</li>
-                </ul>
-                <p>Seguimiento continuo</p>
-              </div>
+              <h3 className="font-display text-2xl font-bold leading-snug text-ink">
+                La experiencia en STUDIO S incluye:
+              </h3>
+              <ul className="mt-4 list-disc space-y-2 pl-5 text-sm font-normal leading-relaxed text-ink-soft">
+                <li>Bebidas</li>
+                <li>Activaciones</li>
+                <li>Alianzas estratégicas</li>
+                <li>Seguimiento continuo</li>
+              </ul>
             </article>
             <article className="flex h-full flex-col rounded-[1.5rem] bg-surface p-6 shadow-[var(--shadow-soft)]">
               <h3 className="font-display text-2xl font-bold text-ink">Puntos con Studio S</h3>
-              <div className="mt-4 flex flex-1 flex-col gap-4 text-sm font-normal leading-relaxed text-ink-soft">
-                <p>
+              <ul className="mt-4 list-disc space-y-2 pl-5 text-sm font-normal leading-relaxed text-ink-soft">
+                <li>
                   Cuanto más disfrutes de tus uñas, más oportunidades tienes de recibir recompensas.
-                </p>
-                <ul className="space-y-2">
-                  <li>Beneficios especiales para nuestras clientas.</li>
-                  <li>Recompensas especiales para nuestras clientas.</li>
-                  <li>Sorpresas y promociones exclusivas.</li>
-                  <li>Una experiencia pensada especialmente para ti.</li>
-                </ul>
-              </div>
+                </li>
+                <li>Beneficios especiales para nuestras clientas.</li>
+                <li>Recompensas especiales para nuestras clientas.</li>
+                <li>Sorpresas y promociones exclusivas.</li>
+                <li>Una experiencia pensada especialmente para ti.</li>
+              </ul>
             </article>
           </div>
         </section>
@@ -236,7 +242,7 @@ export default function HomePage() {
             <Portafolio
               categorias={portafolioBase.map((categoria) => ({
                 ...categoria,
-                fotos: fotosDe(categoria.id),
+                fotos: [...fotosDe(categoria.id), ...(subidas[categoria.id] ?? [])],
               }))}
             />
           </div>
@@ -256,12 +262,7 @@ export default function HomePage() {
                       key={`${categoria.nombre}-${servicio.nombre}`}
                       className="flex h-full flex-col rounded-[1.5rem] bg-surface p-5 ring-1 ring-ink/5"
                     >
-                      <div className="flex items-start justify-between gap-3">
-                        <h4 className="font-display text-xl leading-snug text-ink">{servicio.nombre}</h4>
-                        <span className="shrink-0 rounded-full bg-[color-mix(in_srgb,var(--color-lacquer)_12%,white)] px-2.5 py-1 text-xs font-semibold text-lacquer">
-                          +{servicio.pts} pts
-                        </span>
-                      </div>
+                      <h4 className="font-display text-xl leading-snug text-ink">{servicio.nombre}</h4>
                       {servicio.desc ? (
                         <p className="mt-3 text-sm leading-relaxed text-ink-soft">{servicio.desc}</p>
                       ) : null}
