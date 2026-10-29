@@ -88,7 +88,7 @@ export function WhatsAppFloat() {
       href={`https://wa.me/${WHATSAPP_NUMBER}`}
       target="_blank"
       rel="noreferrer"
-      className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-lacquer text-porcelain shadow-[0_12px_30px_rgba(168,40,59,0.35)] transition hover:bg-lacquer-dark"
+      className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-lacquer text-porcelain shadow-[0_12px_30px_rgba(166,135,78,0.4)] transition hover:bg-lacquer-dark"
       aria-label="WhatsApp +51 956 246 255"
     >
       <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true">

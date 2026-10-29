@@ -25,7 +25,7 @@ export function QrCodeImage({
     QRCode.toDataURL(payload, {
       width: size,
       margin: 2,
-      color: { dark: '#1b1614', light: '#fffcfa' },
+      color: { dark: '#593f28', light: '#efeae2' },
       errorCorrectionLevel: 'M',
     })
       .then((url) => {

@@ -124,7 +124,7 @@ function MiTarjetaContent() {
           </Button>
         </div>
 
-        <div className="overflow-hidden rounded-[1.8rem] border-2 border-lacquer bg-[linear-gradient(165deg,#fffcfa,#f7f1ec_60%,#d8b4a033)] shadow-[var(--shadow-soft)]">
+        <div className="overflow-hidden rounded-[1.8rem] border-2 border-lacquer bg-[linear-gradient(165deg,#efeae2,#d9d2c5_60%,#a6874e33)] shadow-[var(--shadow-soft)]">
           <div className="border-b border-brass/30 px-6 py-5">
             <p className="font-display text-2xl text-ink">
               Studio <span className="text-lacquer">S</span>

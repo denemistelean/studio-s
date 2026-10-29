@@ -175,7 +175,7 @@ export default function ClientaDetailPage() {
       ) : null}
 
       <div className="grid gap-4 md:grid-cols-3">
-        <Card className="md:col-span-1 bg-[linear-gradient(160deg,#fffcfa,#f7f1ec)]">
+        <Card className="md:col-span-1 bg-[linear-gradient(160deg,#efeae2,#d9d2c5)]">
           <p className="text-xs uppercase tracking-[0.16em] text-brass">Saldo</p>
           <p className="mt-2 font-display text-5xl text-lacquer">{clienta.puntos_saldo}</p>
           <p className="text-sm text-ink-soft">puntos disponibles</p>

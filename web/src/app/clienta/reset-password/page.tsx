@@ -46,7 +46,7 @@ function ResetPasswordBody() {
 
 export default function ResetPasswordPage() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[linear-gradient(165deg,#fffcfa,#f3ebe4)] px-4 py-12">
+    <main className="flex min-h-screen items-center justify-center bg-[linear-gradient(165deg,#efeae2,#d9d2c5)] px-4 py-12">
       <Suspense fallback={<LoadingState />}>
         <ResetPasswordBody />
       </Suspense>

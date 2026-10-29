@@ -113,7 +113,7 @@ export function AtencionMultiServicioForm({
   return (
     <form className="space-y-4" onSubmit={onSubmit}>
       {(clientaLabel || puntosSaldo != null) && (
-        <div className="rounded-2xl border border-ink/5 bg-[linear-gradient(160deg,#fffcfa,#f7f1ec)] px-4 py-3">
+        <div className="rounded-2xl border border-ink/5 bg-[linear-gradient(160deg,#efeae2,#d9d2c5)] px-4 py-3">
           {clientaLabel ? (
             <p className="font-display text-2xl text-ink">{clientaLabel}</p>
           ) : null}

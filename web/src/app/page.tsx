@@ -72,22 +72,22 @@ const portafolioBase: Omit<PortafolioCategoria, 'fotos'>[] = [
   {
     id: 'tendencias-inn',
     nombre: 'Tendencias Inn',
-    fondo: 'bg-[linear-gradient(160deg,#e7d3c8,#f7f1ec_55%,#d8b4a0)]',
+    fondo: 'bg-[linear-gradient(160deg,#bfb8aa,#d9d2c5_55%,#a6874e)]',
   },
   {
     id: 'top-5',
     nombre: 'Top 5',
-    fondo: 'bg-[linear-gradient(160deg,#f3e6df,#fff8f4_50%,#c4a484)]',
+    fondo: 'bg-[linear-gradient(160deg,#d9d2c5,#efeae2_50%,#8c7b65)]',
   },
   {
     id: 'disenos-complejos',
     nombre: 'Diseños Complejos',
-    fondo: 'bg-[linear-gradient(160deg,#ead7d4,#f7f1ec_45%,#a8283b33)]',
+    fondo: 'bg-[linear-gradient(160deg,#bfb8aa,#d9d2c5_45%,#593f284d)]',
   },
   {
     id: 'diseno-sencillos',
     nombre: 'Diseño Sencillos',
-    fondo: 'bg-[linear-gradient(160deg,#f6efe9,#fffdfb_60%,#e4d2c4)]',
+    fondo: 'bg-[linear-gradient(160deg,#efeae2,#f4f0e8_60%,#bfb8aa)]',
   },
 ];
 
@@ -147,7 +147,7 @@ export default async function HomePage() {
       <LandingNavbar />
       <main>
         <section className="relative overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(216,180,160,0.35),transparent_45%),radial-gradient(circle_at_80%_0%,rgba(168,40,59,0.12),transparent_40%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(191,184,170,0.55),transparent_45%),radial-gradient(circle_at_80%_0%,rgba(166,135,78,0.22),transparent_40%)]" />
           <div className="relative mx-auto grid max-w-6xl gap-10 px-4 py-16 md:grid-cols-2 md:items-center md:px-6 md:py-24">
             <div className="animate-fade-up">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brass">
@@ -181,7 +181,7 @@ export default async function HomePage() {
               </div>
             </div>
             <div className="relative flex min-h-[360px] items-start justify-center overflow-hidden rounded-[2rem] bg-ink pt-8 shadow-[var(--shadow-soft)]">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(176,141,87,0.28),transparent_55%),radial-gradient(circle_at_80%_80%,rgba(168,40,59,0.22),transparent_45%)]" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(166,135,78,0.32),transparent_55%),radial-gradient(circle_at_80%_80%,rgba(89,63,40,0.35),transparent_45%)]" />
               <div className="relative -translate-y-2 animate-fade-up">
                 <BrandLogo href={null} size="xl" priority />
               </div>
@@ -326,7 +326,7 @@ export default async function HomePage() {
             {recompensas.map((r) => (
               <div
                 key={r.nombre}
-                className="rounded-[1.5rem] border border-brass/30 bg-[linear-gradient(180deg,#fffcfa,#f7f1ec)] p-6"
+                className="rounded-[1.5rem] border border-brass/30 bg-[linear-gradient(180deg,#efeae2,#d9d2c5)] p-6"
               >
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brass">
                   {r.pts} pts

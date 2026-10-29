@@ -9,7 +9,7 @@ import { BrandLogo } from '@/components/brand/logo';
  */
 export default function OlvidePasswordPage() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[linear-gradient(165deg,#fffcfa,#f3ebe4)] px-4 py-12">
+    <main className="flex min-h-screen items-center justify-center bg-[linear-gradient(165deg,#efeae2,#d9d2c5)] px-4 py-12">
       <div className="w-full max-w-md space-y-6 rounded-3xl border border-ink/5 bg-white/80 p-8 shadow-sm">
         <div className="flex justify-center">
           <BrandLogo href="/" size="lg" priority />

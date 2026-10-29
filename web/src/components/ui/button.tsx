@@ -6,10 +6,10 @@ type Size = 'sm' | 'md' | 'lg';
 
 const variants: Record<Variant, string> = {
   primary:
-    'bg-lacquer text-porcelain hover:bg-lacquer-dark shadow-[0_8px_24px_rgba(168,40,59,0.22)]',
+    'bg-lacquer text-porcelain hover:bg-lacquer-dark shadow-[0_8px_24px_rgba(166,135,78,0.28)]',
   secondary: 'bg-ink text-porcelain hover:bg-lacquer',
-  ghost: 'bg-transparent text-ink-soft hover:bg-[color-mix(in_srgb,var(--color-lacquer)_8%,transparent)]',
-  premium: 'bg-brass text-ink hover:brightness-95',
+  ghost: 'bg-transparent text-ink-soft hover:bg-[color-mix(in_srgb,var(--color-lacquer)_12%,transparent)]',
+  premium: 'bg-brass text-porcelain hover:brightness-95',
 };
 
 const sizes: Record<Size, string> = {

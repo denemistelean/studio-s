@@ -38,7 +38,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-porcelain md:grid md:grid-cols-2">
       <aside className="relative hidden overflow-hidden bg-ink md:block">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(176,141,87,0.28),transparent_40%),radial-gradient(circle_at_70%_80%,rgba(168,40,59,0.35),transparent_45%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(166,135,78,0.32),transparent_40%),radial-gradient(circle_at_70%_80%,rgba(89,63,40,0.28),transparent_45%)]" />
         <div className="relative flex h-full flex-col justify-between p-10 text-porcelain">
           <BrandLogo href="/" size="lg" priority />
           <div>

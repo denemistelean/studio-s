@@ -125,7 +125,7 @@ export default function RecompensasPage() {
         {items.map((r) => (
           <Card
             key={r.id_recompensa}
-            className="border border-brass/25 bg-[linear-gradient(180deg,#fffcfa,#f7f1ec)]"
+            className="border border-brass/25 bg-[linear-gradient(180deg,#efeae2,#d9d2c5)]"
           >
             <div className="flex items-start justify-between">
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brass">
